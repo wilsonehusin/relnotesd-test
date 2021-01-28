@@ -1,4 +1,3 @@
-require "file"
 require "json"
 require "octokit"
 
