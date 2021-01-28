@@ -6,7 +6,7 @@ def compiled_markdown
     JSON.parse(File.read(filename)).reject { |data| data["do_not_publish"] }
   end.reduce({}, :merge)
 
-  content = relnotes.map { |note| note["markdown"] }.join "\n\n- "
+  content = relnotes.map { |_, note| note["markdown"] }.join "\n\n- "
   content = "- " + content
 
   <<~MD
@@ -14,15 +14,24 @@ def compiled_markdown
     
     based on #{ENV["GITHUB_SHA"]}
 
+    <details>
+    <summary>Rendered Markdown</summary>
+    <br>
+
     #{content}
+
+    </details>
 
     <details>
     <summary>Raw Markdown</summary>
     <br>
     
-    <code>
+    ```
+
       #{content}
-    </code>
+
+    ```
+
     </details>
 
   MD

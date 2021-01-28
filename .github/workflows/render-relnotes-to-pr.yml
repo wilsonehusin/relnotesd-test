@@ -19,7 +19,7 @@ jobs:
       with:
         ruby-version: "2.7"
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Setup gems
+    - name: Set up gems
       run: bundle install
     - name: Render release notes
       run: bundle exec ruby relnotesd.rb
