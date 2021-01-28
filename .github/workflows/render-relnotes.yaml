@@ -1,0 +1,31 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: Ruby
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  render-release-notes:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "2.7"
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Setup gems
+      run: bundle install
+    - name: Render release notes
+      run: bundle exec ruby relnotes.rb
+      env:
+        GITHUB_TOKEN: FOO
+        GITHUB_ISSUE_NUMBER: ${{github.event.number}}
+

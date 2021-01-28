@@ -6,7 +6,7 @@ client = Octokit::Client.new(access_token: ENV.fetch("GITHUB_TOKEN"))
 
 client.add_comment(
   ENV["GITHUB_REPOSITORY"],
-  ENV["GITHUB_ISSUE_NUMBER"],
+  ENV["GITHUB_ISSUE_NUMBER"].to_i,
   compiled_markdown,
 )
 
