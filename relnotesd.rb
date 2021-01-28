@@ -4,7 +4,7 @@ require "octokit"
 def compiled_markdown
   relnotes = Dir.glob("./datastore/*.json").map do |filename|
     JSON.parse(File.read(filename)).reject { |data| data["do_not_publish"] }
-  end
+  end.reduce({}, :merge)
 
   content = relnotes.map { |note| note["markdown"] }.join "\n\n- "
   content = "- " + content
