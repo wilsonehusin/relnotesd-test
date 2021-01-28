@@ -2,7 +2,7 @@ require "json"
 require "octokit"
 
 def compiled_markdown
-  relnotes = File.glob("./maps/*.json").map do |filename|
+  relnotes = Dir.glob("./maps/*.json").map do |filename|
     JSON.parse(File.read(filename)).reject { |data| data["do_not_publish"] }
   end
 
