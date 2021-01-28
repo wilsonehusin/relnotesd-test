@@ -2,7 +2,7 @@ require "json"
 require "octokit"
 
 def compiled_markdown
-  relnotes = Dir.glob("./maps/*.json").map do |filename|
+  relnotes = Dir.glob("./datastore/*.json").map do |filename|
     JSON.parse(File.read(filename)).reject { |data| data["do_not_publish"] }
   end
 
@@ -10,13 +10,13 @@ def compiled_markdown
   content = "- " + content
 
   <<~MD
-    # Rendered Release Notes Result
+    ### [BOT] Rendered Release Notes
     
     based on #{ENV["GITHUB_SHA"]}
 
     #{content}
 
-    <details open>
+    <details>
     <summary>Raw Markdown</summary>
     <br>
     
@@ -27,6 +27,8 @@ def compiled_markdown
 
   MD
 end
+
+raise "GitHub token is empty string!" if ENV["GITHUB_TOKEN"]&.empty?
 
 client = Octokit::Client.new(access_token: ENV.fetch("GITHUB_TOKEN"))
 
