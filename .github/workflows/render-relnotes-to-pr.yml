@@ -22,7 +22,7 @@ jobs:
     - name: Setup gems
       run: bundle install
     - name: Render release notes
-      run: bundle exec ruby relnotes.rb
+      run: bundle exec ruby relnotesd.rb
       env:
-        GITHUB_TOKEN: FOO
+        GITHUB_TOKEN: ${{secrets.TOKEN_GITHUB}}
         GITHUB_ISSUE_NUMBER: ${{github.event.number}}
