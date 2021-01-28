@@ -1,14 +1,6 @@
 require "json"
 require "octokit"
 
-client = Octokit::Client.new(access_token: ENV.fetch("GITHUB_TOKEN"))
-
-client.add_comment(
-  ENV["GITHUB_REPOSITORY"],
-  ENV["GITHUB_ISSUE_NUMBER"].to_i,
-  compiled_markdown,
-)
-
 def compiled_markdown
   relnotes = File.glob("./maps/*.json").map do |filename|
     JSON.parse(File.read(filename)).reject { |data| data["do_not_publish"] }
@@ -35,3 +27,11 @@ def compiled_markdown
 
   MD
 end
+
+client = Octokit::Client.new(access_token: ENV.fetch("GITHUB_TOKEN"))
+
+client.add_comment(
+  ENV["GITHUB_REPOSITORY"],
+  ENV["GITHUB_ISSUE_NUMBER"].to_i,
+  compiled_markdown,
+)
